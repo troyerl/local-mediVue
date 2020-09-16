@@ -24,6 +24,7 @@ io.on('connection', (socket) => {
     // const message = await translate(data.message, data.userLang);
     io.emit('SEND_MESSAGE', data);
   });
+  
 });
 
 http.listen(5000);
