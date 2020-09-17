@@ -5,20 +5,20 @@
       :player-vars="playerVars"
       width="100%"
       ref="youtube"
-      :video-id="videoId"
     ></youtube>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'videoPlayer',
   props: ['mutePlayer'],
   data() {
     return {
       firstTimePlayed: true,
-      videoId: 'xe2FPP4lX14',
-      videos: ['https://www.youtube.com/watch?v=xe2FPP4lX14'],
+      videos: [],
       playerVars: {
         modestbranding: 1,
         showinfo: 0,
@@ -30,43 +30,59 @@ export default {
       },
     };
   },
+
+  computed: {
+    ...mapState([
+      // map this.count to store.state.count
+      'playing',
+      'userInfo'
+    ]),
+    player() {
+      return this.$refs.youtube.player;
+    },
+  },
   mounted() {
     this.mutePlayer ? this.player.mute() : '';
 
-    this.sockets.subscribe('TOGGLE_PLAYER', (bool) => {
-      if (bool) {
-        this.playVideo();
-      } else {
-        this.stopVideo();
+    this.$store.watch(
+      state => state.playing,
+      (value) => {
+        if (value) {
+          this.playVideo();
+        } else {
+          this.stopVideo();
+        }
       }
-    });
+    )
+
+    this.$store.watch(
+      state => state.userInfo,
+      (value) => {
+        if (value) {
+          this.initialize(value.playlist);
+        }
+      }
+    )
   },
   methods: {
+    initialize(playlist) {
+      this.firstTimePlayed = true;
+      this.videos = playlist.map((v) => this.getId(v.url));
+    },
     playVideo() {
       if (this.firstTimePlayed) {
-        this.player.mute();
-        // this.$refs.youtube.player.loadPlaylist(this.videos);
-        // this.$refs.youtube.player.setLoop(true);
-        this.$refs.youtube.player.playVideo();
-
+        this.$refs.youtube.player.loadPlaylist(this.videos);
+        this.$refs.youtube.player.setLoop(true);
         this.firstTimePlayed = false;
-      } else {
-        this.$refs.youtube.player.playVideo();
       }
+
+      this.player.playVideo();
     },
     stopVideo() {
       this.player.pauseVideo();
     },
-    initialize() {
-      this.firstTimePlayed = true;
-    },
     getId(url) {
       return this.$youtube.getIdFromUrl(url);
-    },
-  },
-  computed: {
-    player() {
-      return this.$refs.youtube.player;
     },
   },
 };

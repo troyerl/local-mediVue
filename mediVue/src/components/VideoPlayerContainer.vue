@@ -18,6 +18,8 @@
 <script>
 import videoPlayer from './VideoPlayer';
 
+import { mapState } from 'vuex';
+
 export default {
   name: 'videoPlayerContainer',
   props: {
@@ -26,19 +28,11 @@ export default {
   components: {
     videoPlayer,
   },
-  mounted() {
-    this.sockets.subscribe('SEND_MESSAGE', (data) => {
-      console.log(`got message at client with timeout`);
-      this.message = data.message;
-      setTimeout(() => {
-        this.message = '';
-      }, 15 * 1000);
-    });
-  },
-  data() {
-    return {
-      message: '',
-    };
+  computed: {
+    ...mapState([
+      // map this.count to store.state.count
+      'message',
+    ]),
   }
 };
 </script>

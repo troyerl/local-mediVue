@@ -21,8 +21,15 @@ io.on('connection', (socket) => {
   })
 
   socket.on('SEND_MESSAGE', async function(data) {
-    // const message = await translate(data.message, data.userLang);
     io.emit('SEND_MESSAGE', data);
+  });
+
+  socket.on('END_SESSION', async function(data) {
+    io.emit('END_SESSION', data);
+  });
+
+  socket.on('UPDATE_USER', async function(data) {
+    io.emit('UPDATE_USER', data);
   });
   
 });

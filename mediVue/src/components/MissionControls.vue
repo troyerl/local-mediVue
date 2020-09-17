@@ -15,7 +15,7 @@
     <div class="video-container" v-show="showVideoPlayer">
       <VideoPlayer :mutePlayer="true"/>
     </div>
-    <ControlMessages v-if="!showVideoPlayer" :setMessage="setMessage"/>
+    <ControlMessages v-if="!showVideoPlayer"/>
     <div
       v-if="message"
       class="d-flex w-100 align-items-center justify-content-center"
@@ -37,41 +37,31 @@
 import VideoPlayer from './VideoPlayer';
 import ControlMessages from './ControlMessages';
 
+import { mapState } from 'vuex';
+
 export default {
   name: 'MissionControls',
   components: {
     VideoPlayer,
     ControlMessages
   },
-  data() {
-    return {
-      showVideoPlayer: true,
-      playing: false,
-      message: ''
-    }
-  },
-  mounted() {
-    this.sockets.subscribe('SEND_MESSAGE', (data) => {
-      console.log(`got message at client with timeout`);
-      this.message = data.message;
-      this.toggleShowPlayer();
-      setTimeout(() => {
-        this.message = '';
-      }, 15 * 1000);
-    });
-  },
   computed: {
+    ...mapState([
+      // map this.count to store.state.count
+      'message',
+      'showVideoPlayer',
+      'playing'
+    ]),
     playPauseText() {
       return this.playing ? 'Pause' : 'Play'
     },
   },
   methods: {
     togglePlay() {
-      this.playing = !this.playing;
-      this.$socket.emit('TOGGLE_PLAYER', this.playing);
+      this.$socket.emit('TOGGLE_PLAYER', !this.playing);
     },
     toggleShowPlayer() {
-      this.showVideoPlayer = !this.showVideoPlayer;
+      this.$store.commit('togglePlayerView');
     },
     centerControl() {
       if (this.showVideoPlayer) {
@@ -81,7 +71,9 @@ export default {
       }
     },
     endSession() {
-      this.$socket.emit('TOGGLE_PLAYER', false);
+      this.$socket.emit('UPDATE_USER', null);
+      this.$socket.emit('END_SESSION', null);
+
       this.$router.push({name: 'procedureInfo'});
     }
   }

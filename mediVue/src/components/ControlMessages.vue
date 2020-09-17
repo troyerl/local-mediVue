@@ -26,7 +26,11 @@ export default {
   },
   methods: {
     setMessage(e) {
-      this.$socket.emit('SEND_MESSAGE', {message: e.target.innerText});
+      this.$socket.emit('SEND_MESSAGE', e.target.innerText);
+      this.$store.commit('togglePlayerView');
+      setTimeout(() => {
+        this.$socket.emit('SEND_MESSAGE', null);
+      }, 15 * 1000);
     },
   }
 }

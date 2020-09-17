@@ -12,10 +12,17 @@ Vue.use(IconsPlugin);
 import VueYoutube from 'vue-youtube';
 Vue.use(VueYoutube);
 
-import VueSocketIO from 'vue-socket.io'
+import store from './store/index';
+
+import VueSocketIO from 'vue-socket.io';
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'http://localhost:5000/'
+  connection: 'http://localhost:5000/',
+  vuex: {
+    store,
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_'
+  },
 }))
 
 Vue.config.productionTip = false;
@@ -24,5 +31,6 @@ import router from './router';
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

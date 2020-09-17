@@ -39,15 +39,7 @@
 
     <h4>Select Playlist:</h4>
     <b-form-select v-model="playlistSelect" :options="playlistList" class="w-50 mt-1 mb-5"></b-form-select>
-    <!-- <div class="d-flex justify-content-center my-3">
-      <div :key="playlist.value" v-for="(playlist, idx) in playlistList" >
-        <button v-if="idx < 4" type="button" class="ml-3 dot">{{playlist.text}}</button>
-      </div>
-      <button class="ml-3 dot" type="button">Other</button>
-    </div> -->
-    
-    
-    <!-- <b-form-select v-model="playlistSelect" :options="playlistList" class="w-50 mt-1 mb-5"></b-form-select> -->
+
     <div class="controls">
       <div class="control-buttons"></div>
       <div class="control-buttons center-control"><b-button type="submit" class="start-session"><b-icon-tv></b-icon-tv> Start Session</b-button></div>
@@ -80,7 +72,7 @@ export default {
         { value: 'other', text: 'Other' },
       ],
       procedureNum: null,
-      totalProcedures: null,
+      totalProcedures: 19,
       error: null
     }
   },
@@ -88,6 +80,14 @@ export default {
     onSubmit() {
       this.error = null;
       if (this.procedureSelect && this.procedureTypes) {
+        this.$socket.emit('UPDATE_USER', {
+          playlist: [
+            {url: 'https://www.youtube.com/watch?v=3mMVcCMO_Ng'},
+            {url: 'https://www.youtube.com/watch?v=V-kT1oGCRCE'},
+            {url: 'https://www.youtube.com/watch?v=HJq3m-Ck2FI'},
+          ],
+          procedureType: ''
+        })
         this.$router.push({name: 'missionControls'});
       } else {
         this.error = 'Missing required info to begin';
