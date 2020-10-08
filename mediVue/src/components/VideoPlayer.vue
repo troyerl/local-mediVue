@@ -68,11 +68,12 @@ export default {
     initialize(playlist) {
       this.firstTimePlayed = true;
       this.videos = playlist.map((v) => this.getId(v.url));
+      this.player.cuePlaylist(this.videos);
     },
     playVideo() {
       if (this.firstTimePlayed) {
-        this.$refs.youtube.player.loadPlaylist(this.videos);
-        this.$refs.youtube.player.setLoop(true);
+        this.player.loadPlaylist(this.videos);
+        this.player.setLoop(true);
         this.firstTimePlayed = false;
       }
 

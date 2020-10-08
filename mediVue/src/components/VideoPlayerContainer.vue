@@ -1,17 +1,20 @@
 <template>
   <div class="videoPlayer-container">
-    <videoPlayer
-      :mutePlayer="false"
-    ></videoPlayer>
-    <div
-      v-if="message"
-      class="d-flex w-100 align-items-center justify-content-center"
-      style="position: fixed; bottom: 5rem;"
-    >
-      <div class="player-message d-flex align-content-center justify-content-center">
-        <p class="text-center">{{ message }}</p>
+    <div v-show="userInfo" class="w-100 h-100">
+      <videoPlayer
+        :mutePlayer="false"
+      ></videoPlayer>
+      <div
+        v-if="message"
+        class="d-flex w-100 align-items-center justify-content-center"
+        style="position: fixed; bottom: 5rem;"
+      >
+        <div class="player-message d-flex align-content-center justify-content-center">
+          <p class="text-center">{{ message }}</p>
+        </div>
       </div>
     </div>
+    <div v-show="!userInfo" class="w-100 h-100 black-screen"></div>
   </div>
 </template>
 
@@ -32,6 +35,7 @@ export default {
     ...mapState([
       // map this.count to store.state.count
       'message',
+      'userInfo'
     ]),
   }
 };
@@ -55,5 +59,8 @@ export default {
 }
 .player-message p {
   font-size: 1.5rem;
+}
+.black-screen {
+  background: black;
 }
 </style>
