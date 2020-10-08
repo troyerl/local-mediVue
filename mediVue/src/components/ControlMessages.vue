@@ -7,22 +7,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'ControlMessages',
-  data() {
-    return {
-      defaultMessages: [
-        'You are half-way done', 
-        'Ten minutes remaining',
-        'Five minutes remaining',
-        'Hold your breath',
-        'You are doing great!',
-        'About 2 minutes remaining',
-        'You may breathe normally now',
-        'Your parents are proud of you!',
-        'Please do not move while we come into the room',
-      ]
-    }
+  computed: {
+    ...mapState([
+      'defaultMessages'
+    ])
   },
   methods: {
     setMessage(e) {

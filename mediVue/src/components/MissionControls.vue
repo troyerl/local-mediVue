@@ -2,7 +2,7 @@
   <div>
     <b-button v-show="showVideoPlayer" v-b-modal.modal-1 variant="danger" class="end-session-button">End Session</b-button>
 
-    <b-modal id="modal-1" title="End Session" class="text-center" hide-footer hide-header centered>
+    <b-modal id="modal-1" class="text-center" hide-footer hide-header centered>
       <div class="d-flex flex-column justify-content-center align-items-center">
         <p class="my-4">Are you sure you want to end the session?</p>
         <div class="d-flex justify-content-center w-100">
@@ -30,12 +30,14 @@
       <div class="control-buttons center-control" @click="centerControl"><b-icon-play-fill v-if="!playing && showVideoPlayer" class="mb-n1"/> <b-icon-pause-fill v-else-if="playing && showVideoPlayer" class="mb-n1"/> <b-icon-chat-dots-fill v-else class="mb-n1"/>{{showVideoPlayer ? playPauseText : 'Custom Message'}}</div>
       <div class="control-buttons" @click="toggleShowPlayer">{{showVideoPlayer ? 'Messages' : ''}} <b-icon-chevron-double-right class="ml-2 mt-1" v-if="showVideoPlayer"></b-icon-chevron-double-right></div>
     </div>
+    <CustomMessage :showCustomMessageModal="showCustomMessageModal" :toggleCustomMessageModal="toggleCustomMessageModal"/>
   </div>
 </template>
 
 <script>
 import VideoPlayer from './VideoPlayer';
 import ControlMessages from './ControlMessages';
+import CustomMessage from './CustomMessage';
 
 import { mapState } from 'vuex';
 
@@ -43,7 +45,13 @@ export default {
   name: 'MissionControls',
   components: {
     VideoPlayer,
-    ControlMessages
+    ControlMessages,
+    CustomMessage
+  },
+  data() {
+    return {
+      showCustomMessageModal: false
+    }
   },
   computed: {
     ...mapState([
@@ -67,7 +75,7 @@ export default {
       if (this.showVideoPlayer) {
         this.togglePlay();
       } else {
-        console.log('controls');
+        this.toggleCustomMessageModal();
       }
     },
     endSession() {
@@ -75,7 +83,10 @@ export default {
       this.$socket.emit('END_SESSION', null);
 
       this.$router.push({name: 'procedureInfo'});
-    }
+    },
+    toggleCustomMessageModal() {
+      this.showCustomMessageModal = !this.showCustomMessageModal;
+    },
   }
 }
 </script>
@@ -87,7 +98,7 @@ export default {
   bottom: 0;
   width: 100vw;
   height: 10vh;
-  background: #3AB5F1;
+  background: #981e32;
   display: flex;
   justify-content: center;
   align-items: center;
