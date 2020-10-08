@@ -31,9 +31,7 @@ export default new Vuex.Store({
     togglePlayerView: (state) => {
       state.showVideoPlayer = !state.showVideoPlayer;
     },
-    SOCKET_END_SESSION: (state, data) => {
-      // state = data;
-      console.log(data);
+    SOCKET_END_SESSION: (state) => {
       state.playing = false
     },
     SOCKET_UPDATE_USER: (state, data) => {

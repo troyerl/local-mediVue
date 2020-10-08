@@ -30,39 +30,31 @@ export default {
       },
     };
   },
-
   computed: {
     ...mapState([
-      // map this.count to store.state.count
       'playing',
-      'userInfo'
+      'userInfo',
     ]),
     player() {
       return this.$refs.youtube.player;
     },
   },
+  watch: {
+    userInfo (newInfo) {
+      if (newInfo) {
+        this.initialize(newInfo.playlist);
+      }
+    },
+    playing (newPlayValue) {
+      if (newPlayValue) {
+        this.playVideo();
+      } else {
+        this.stopVideo();
+      } 
+    }
+  },
   mounted() {
     this.mutePlayer ? this.player.mute() : '';
-
-    this.$store.watch(
-      state => state.playing,
-      (value) => {
-        if (value) {
-          this.playVideo();
-        } else {
-          this.stopVideo();
-        }
-      }
-    )
-
-    this.$store.watch(
-      state => state.userInfo,
-      (value) => {
-        if (value) {
-          this.initialize(value.playlist);
-        }
-      }
-    )
   },
   methods: {
     initialize(playlist) {

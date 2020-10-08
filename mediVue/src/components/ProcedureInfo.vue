@@ -140,12 +140,15 @@ export default {
         }
 
         this.$socket.emit('UPDATE_USER', {
+          procedureSelect: this.procedureSelect,
+          procedureNum: this.procedureNum,
+          totalProcedures: this.totalProcedures,
+          selectedLanugage: this.languageOptions[this.selectedLanugage].value,
           playlist: [
             {url: 'https://www.youtube.com/watch?v=3mMVcCMO_Ng'},
             {url: 'https://www.youtube.com/watch?v=V-kT1oGCRCE'},
             {url: 'https://www.youtube.com/watch?v=HJq3m-Ck2FI'},
           ],
-          procedureType: ''
         })
         this.$router.push({name: 'missionControls'});
       } else {
