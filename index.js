@@ -2,12 +2,8 @@ const express = require('express');
 const app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-var opn = require('opn');
 
 app.use(express.static('public'));
-
-opn('http://localhost:5000');
-opn('http://localhost:5000/#/videoplayer');
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');

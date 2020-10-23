@@ -27,10 +27,18 @@ Vue.use(new VueSocketIO({
 
 Vue.config.productionTip = false;
 
+import VueApollo from 'vue-apollo';
+import apolloClient from './store/apollo';
+Vue.use(VueApollo);
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient,
+});
+
 import router from './router';
 
 new Vue({
   router,
   store,
+  apolloProvider,
   render: h => h(App),
 }).$mount('#app')
