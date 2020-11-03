@@ -79,8 +79,10 @@ export default {
       }
     },
     endSession() {
-      this.$socket.emit('UPDATE_USER', null);
       this.$socket.emit('END_SESSION', null);
+      this.$store.dispatch('endSession').then(() => {
+        this.$socket.emit('UPDATE_USER', null);
+      });
 
       this.$router.push({name: 'procedureInfo'});
     },

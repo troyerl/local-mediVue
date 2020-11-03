@@ -74,7 +74,7 @@
       <p class="mb-2 text-center font-weight-bold">Select Playlist</p>
 
       <b-button-group class="mb-1 mx-3">
-        <b-button @click="playlistSelect = playlist.value" :variant="playlistSelect === playlist.value ? 'dark' : 'outline-dark'" :style="idx < 4 ? '' : 'display: none;'" :key="playlist.value" v-for="(playlist, idx) in playlistList">{{playlist.text}}</b-button>
+        <b-button @click="playlistSelect = playlist.id" :variant="playlistSelect === playlist.id ? 'dark' : 'outline-dark'" :style="idx < 4 ? '' : 'display: none;'" :key="playlist.id" v-for="(playlist, idx) in playlists">{{playlist.name}}</b-button>
         <b-button @click="playlistSelect = null" variant="outline-dark">Other</b-button>
       </b-button-group>
     </b-card>
@@ -95,10 +95,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+const _ = require('lodash');
+
 export default {
   name: 'ProcedureInfo',
   data() {
     return {
+      getAdminById: {},
       procedureSelect: null,
       procedureTypes: [
         {id: 'head', svg: 'head.svg', text: 'Head'},
@@ -108,13 +112,6 @@ export default {
         {id: 'other', svg: 'other.svg', text: 'Other'},
       ],
       playlistSelect: null,
-      playlistList: [
-        { value: 'superhero', text: 'Superhero' },
-        { value: 'princess', text: 'Princess' },
-        { value: 'twitch', text: 'Twitch' },
-        { value: 'peppa the pig', text: 'Peppa the Pig' },
-        { value: 'live news', text: 'Live News' },
-      ],
       procedureNum: null,
       totalProcedures: null,
       languageOptions: [
@@ -127,6 +124,14 @@ export default {
       showError: false,
       error: null
     }
+  },
+  computed: {
+    ...mapState([
+      'playlists'
+    ])
+  },
+  mounted() {
+    this.$store.dispatch('getPlaylists');
   },
   methods: {
     onSubmit() {
@@ -144,12 +149,9 @@ export default {
           procedureNum: this.procedureNum,
           totalProcedures: this.totalProcedures,
           selectedLanugage: this.languageOptions[this.selectedLanugage].value,
-          playlist: [
-            {url: 'https://www.youtube.com/watch?v=pjV0zjC7ZIc'},
-            {url: 'https://www.youtube.com/watch?v=PkmydXTBgag'},
-            {url: 'https://www.youtube.com/watch?v=vhwzI3uE5cI'},
-          ],
-        })
+          playlist: _.find(this.playlists, { id: this.playlistSelect })
+        });
+        this.$store.dispatch('setStartTime');
         this.$router.push({name: 'missionControls'});
       } else {
         this.error = 'Missing required info to begin';

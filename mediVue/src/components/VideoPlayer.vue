@@ -42,7 +42,7 @@ export default {
   watch: {
     userInfo (newInfo) {
       if (newInfo) {
-        this.initialize(newInfo.playlist);
+        this.initialize(newInfo.playlist.videos);
       }
     },
     playing (newPlayValue) {

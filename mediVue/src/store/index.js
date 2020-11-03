@@ -1,5 +1,8 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
+import gql from './graphql';
+import apolloClient from './apollo';
+
 
 Vue.use(Vuex);
 
@@ -7,8 +10,10 @@ export default new Vuex.Store({
   state: {
     userInfo: null,
     message: null,
+    startTime: null,
     showVideoPlayer: true,
     playing: false,
+    playlists: null,
     defaultMessages: [
       'You are half-way done', 
       'Ten minutes remaining',
@@ -39,7 +44,13 @@ export default new Vuex.Store({
     },
     updateDefaultMessage: (state, data) => {
       state.defaultMessages.push(data);
-    }
+    },
+    UPDATE_PLAYLIST: (state, data) => {
+      state.playlists = data.playlists;
+    },
+    SET_START_TIME: (state, data) => {
+      state.startTime = data.startTime;
+    },
   },
   actions: {
     updateUserInfo: (payload) => {
@@ -47,6 +58,29 @@ export default new Vuex.Store({
     },
     addCustomMessage: ({ commit }, payload) => {
       commit('updateDefaultMessage', payload);
+    },
+    async getPlaylists({ commit }) {
+      const {
+        data: {
+          getAdminById: { ...playlists },
+        },
+      } = await apolloClient.query({
+        query: gql.getPlaylists,
+        variables: { id: process.env.VUE_APP_ADMIN_ID },
+      });
+      playlists.playlists.sort(function(a, b) {
+        return b.timesPlayed - a.timesPlayed;
+      });
+      commit('UPDATE_PLAYLIST', { playlists: playlists.playlists });
+    },
+    setStartTime({ commit }) {
+      commit('SET_START_TIME', { startTime: new Date() });
+    },
+    async endSession({ state }) {
+      await apolloClient.mutate({
+        mutation: gql.createUsageReport,
+        variables: { mediVueId: process.env.VUE_APP_MEDIVUE_ID, startTime: state.startTime.toISOString(), endTime: new Date().toISOString(), playlistId: state.userInfo.playlist.id },
+      });
     }
   }
 })
