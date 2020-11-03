@@ -1,83 +1,75 @@
 <template>
-  <form class="procedure-info">
-    <b-card class="shadow-sm w-75">
-      <p class="mb-2 text-center font-weight-bold mt-n1">Procedure Type</p>
+  <form>
+    <div v-if="showMainScreen" class="procedure-info">
+      <b-card class="shadow-sm w-75">
+        <p class="mb-2 text-center font-weight-bold mt-n1">Procedure Type</p>
 
-      <div class="d-flex mb-2 ">
-        <div @click="procedureSelect = type.id" :key="type.text" v-for="(type, idx) in procedureTypes" :class="(idx !== procedureTypes.length - 1 ? 'border-right ' : '') + 'procedure-div d-flex flex-column justify-content-center align-items-center'">
-          <div :class="(procedureSelect === type.id ? 'clicked' : '') + ' test1'">
-            <img class="procedure-icon svg" :src="'assets/svg/' + (procedureSelect === type.id ? 'clicked-' : '') +  type.svg"/>
-          </div>
-          <p class="mb-0 text-center">{{type.text}}</p>
-        </div>
-      </div>
-    </b-card>
-    <!-- <h5 class="mb-0 mb-2">Procedure Type:</h5>
-    <div class="icon-list">
-      <div :key="type.text" v-for="type in procedureTypes">
-        <b-card class="procedure-card1 ml-2 shadow-sm" @click="procedureSelect = type.id">
-          <div class="w-100 d-flex justify-content-center">
+        <div class="d-flex mb-2 ">
+          <div @click="procedureSelect = type.id" :key="type.text" v-for="(type, idx) in procedureTypes" :class="(idx !== procedureTypes.length - 1 ? 'border-right ' : '') + 'procedure-div d-flex flex-column justify-content-center align-items-center'">
             <div :class="(procedureSelect === type.id ? 'clicked' : '') + ' test1'">
               <img class="procedure-icon svg" :src="'assets/svg/' + (procedureSelect === type.id ? 'clicked-' : '') +  type.svg"/>
             </div>
+            <p class="mb-0 text-center">{{type.text}}</p>
           </div>
-          <p class="mb-0 text-center">{{type.text}}</p>
-        </b-card>
-      </div>
-    </div> -->
+        </div>
+      </b-card>
 
-    <div class="w-100 d-flex justify-content-center mt-3">
-      <div class="w-50 text-center border-right d-flex flex-column justify-content-center align-items-center">
-        <b-card class="w-75 shadow-sm">
-          <p class="mb-2 text-center font-weight-bold">Procedure Number</p>
-          <div class="d-flex  justify-content-center align-items-center align-content-center text-center">
+      <div class="w-100 d-flex justify-content-center mt-3">
+        <div class="w-50 text-center border-right d-flex flex-column justify-content-center align-items-center">
+          <b-card class="w-75 shadow-sm">
+            <p class="mb-2 text-center font-weight-bold">Procedure Number</p>
+            <div class="d-flex  justify-content-center align-items-center align-content-center text-center">
 
-  
-            <b-form-input
-              type="number"
-              required
-              placeholder="1"
-              class="procedure-input text-center"
-              v-model="procedureNum"
-              min="0"
-            ></b-form-input>
+    
+              <b-form-input
+                type="number"
+                required
+                placeholder="1"
+                class="procedure-input text-center"
+                v-model="procedureNum"
+                min="0"
+              ></b-form-input>
 
-            <p class="mx-2 pt-3">out of</p>
-            <b-form-input
-              type="number"
-              required
-              placeholder="19"
-              class="procedure-input text-center"
-              v-model="totalProcedures"
-              min="0"
-            ></b-form-input>
-          </div>
-        </b-card>
-      </div>
-
-      <div class="w-50 d-flex flex-column justify-content-center align-items-center">
-        <b-card class="w-50 shadow-sm">
-          <p class="mb-2 text-center font-weight-bold">Patient Language</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <span class="prev" @click="plusSlides(-1)">&#10094;</span>
-            <div class="d-flex flex-column align-items-center">
-              <img class="language-icon" :src="'assets/svg/lang/' + languageOptions[selectedLanugage].svg" :alt="languageOptions[selectedLanugage].text">
-              <p class="mb-0">{{languageOptions[selectedLanugage].text}}</p>
+              <p class="mx-2 pt-3">out of</p>
+              <b-form-input
+                type="number"
+                required
+                placeholder="19"
+                class="procedure-input text-center"
+                v-model="totalProcedures"
+                min="0"
+              ></b-form-input>
             </div>
-            <span class="next" @click="plusSlides(1)">&#10095;</span>
-          </div>
-        </b-card>
+          </b-card>
+        </div>
+
+        <div class="w-50 d-flex flex-column justify-content-center align-items-center">
+          <b-card class="w-50 shadow-sm">
+            <p class="mb-2 text-center font-weight-bold">Patient Language</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="prev" @click="plusSlides(-1)">&#10094;</span>
+              <div class="d-flex flex-column align-items-center">
+                <img class="language-icon" :src="'assets/svg/lang/' + languageOptions[selectedLanugage].svg" :alt="languageOptions[selectedLanugage].text">
+                <p class="mb-0">{{languageOptions[selectedLanugage].text}}</p>
+              </div>
+              <span class="next" @click="plusSlides(1)">&#10095;</span>
+            </div>
+          </b-card>
+        </div>
       </div>
+
+      <b-card class="mt-3 shadow-sm">
+        <p class="mb-2 text-center font-weight-bold">Select Playlist</p>
+
+        <b-button-group class="mb-1 mx-3">
+          <b-button @click="playlistSelect = playlist.id" :variant="playlistSelect === playlist.id ? 'dark' : 'outline-dark'" :style="idx < 4 ? '' : 'display: none;'" :key="playlist.id" v-for="(playlist, idx) in getPlaylists">{{playlist.name}}</b-button>
+          <b-button @click="showMainScreen = false" v-if="showOtherButton" variant="outline-dark">Other</b-button>
+        </b-button-group>
+      </b-card>
     </div>
-
-    <b-card class="mt-3 shadow-sm">
-      <p class="mb-2 text-center font-weight-bold">Select Playlist</p>
-
-      <b-button-group class="mb-1 mx-3">
-        <b-button @click="playlistSelect = playlist.id" :variant="playlistSelect === playlist.id ? 'dark' : 'outline-dark'" :style="idx < 4 ? '' : 'display: none;'" :key="playlist.id" v-for="(playlist, idx) in playlists">{{playlist.name}}</b-button>
-        <b-button @click="playlistSelect = null" variant="outline-dark">Other</b-button>
-      </b-button-group>
-    </b-card>
+    <div v-else>
+      <h1>Else</h1>
+    </div>
 
     <div class="procedure-controls">
       <div class="control-buttons"></div>
@@ -102,7 +94,7 @@ export default {
   name: 'ProcedureInfo',
   data() {
     return {
-      getAdminById: {},
+      showMainScreen: true,
       procedureSelect: null,
       procedureTypes: [
         {id: 'head', svg: 'head.svg', text: 'Head'},
@@ -128,7 +120,21 @@ export default {
   computed: {
     ...mapState([
       'playlists'
-    ])
+    ]),
+    getPlaylists() {
+      if (this.playlists) {
+        return this.playlists.filter((month,idx) => idx < 4);
+      } else {
+        return [];
+      }
+    },
+    showOtherButton() {
+      if (this.playlists) {
+        return this.playlists.length > 4;
+      } else {
+        return false;
+      }
+    }
   },
   mounted() {
     this.$store.dispatch('getPlaylists');
