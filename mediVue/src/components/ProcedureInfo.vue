@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form class="procedure-info-background">
     <div v-if="showMainScreen" class="procedure-info">
       <b-card class="shadow-sm w-75">
         <p class="mb-2 text-center font-weight-bold mt-n1">Procedure Type</p>
@@ -62,13 +62,18 @@
         <p class="mb-2 text-center font-weight-bold">Select Playlist</p>
 
         <b-button-group class="mb-1 mx-3">
-          <b-button @click="playlistSelect = playlist.id" :variant="playlistSelect === playlist.id ? 'dark' : 'outline-dark'" :style="idx < 4 ? '' : 'display: none;'" :key="playlist.id" v-for="(playlist, idx) in getPlaylists">{{playlist.name}}</b-button>
+          <b-button @click="playlistSelect = playlist.id" :variant="playlistSelect === playlist.id ? 'dark' : 'outline-dark'" :key="playlist.id" v-for="playlist in getPlaylists">{{playlist.name}}</b-button>
           <b-button @click="showMainScreen = false" v-if="showOtherButton" variant="outline-dark">Other</b-button>
         </b-button-group>
       </b-card>
     </div>
-    <div v-else>
-      <h1>Else</h1>
+    <div v-else class="other-playlists">
+      <b-icon-arrow-left-circle-fill class="mt-3 ml-3" width="50" height="50" @click="showMainScreen = true"></b-icon-arrow-left-circle-fill>
+      <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="w-75 d-flex justify-content-center flex-wrap">
+          <b-button @click="playlistSelect = playlist.id" class="mx-2 border-dark" :variant="playlistSelect === playlist.id ? 'dark' : 'outline-dark bg-white'" :key="playlist.id" v-for="(playlist) in playlists">{{playlist.name}}</b-button>
+        </div>
+      </div>
     </div>
 
     <div class="procedure-controls">
@@ -177,6 +182,13 @@ export default {
 </script>
 
 <style>
+  .other-playlists {
+    min-height: 90vh;
+  }
+  .procedure-info-background {
+    width: 100vw;
+    background: #F7FBFF;
+  }
   .procedure-div {
     width: 20% !important;
   }
@@ -205,8 +217,6 @@ export default {
   }
   .procedure-info {
     min-height: 90vh;
-    width: 100vw;
-    background: #F7FBFF;
     display: flex;
     flex-direction: column;
     justify-content: center;

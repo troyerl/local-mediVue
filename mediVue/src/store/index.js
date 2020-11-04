@@ -77,9 +77,20 @@ export default new Vuex.Store({
       commit('SET_START_TIME', { startTime: new Date() });
     },
     async endSession({ state }) {
+      let variables = {
+        mediVueId: process.env.VUE_APP_MEDIVUE_ID, 
+        startTime: state.startTime.toISOString(), 
+        endTime: new Date().toISOString(), 
+        playlistId: state.userInfo.playlist.id,
+        procedureNum: parseInt(state.userInfo.procedureNum), 
+        procedureSelect: state.userInfo.procedureSelect, 
+        selectedLanugage: state.userInfo.selectedLanugage, 
+        totalProcedures: parseInt(state.userInfo.totalProcedures)
+      };
+
       await apolloClient.mutate({
         mutation: gql.createUsageReport,
-        variables: { mediVueId: process.env.VUE_APP_MEDIVUE_ID, startTime: state.startTime.toISOString(), endTime: new Date().toISOString(), playlistId: state.userInfo.playlist.id },
+        variables
       });
     }
   }
