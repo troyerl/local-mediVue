@@ -55,7 +55,6 @@ export default {
   },
   computed: {
     ...mapState([
-      // map this.count to store.state.count
       'message',
       'showVideoPlayer',
       'playing'

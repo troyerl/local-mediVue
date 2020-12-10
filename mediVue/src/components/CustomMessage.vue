@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'CustomMessage',
   props: ['showCustomMessageModal', 'toggleCustomMessageModal'],
@@ -32,11 +34,16 @@ export default {
       error: null
     }
   },
+  computed: {
+    ...mapState([
+      'userInfo'
+    ])
+  },
   methods: {
     onAddMessage(e) {
       e.preventDefault();
       if (this.message) {
-        this.$socket.emit('SEND_MESSAGE', this.message);
+        this.$socket.emit('SEND_MESSAGE', { text: this.message, language: this.userInfo.selectedLanugage });
         this.$store.commit('togglePlayerView');
         this.$store.dispatch('addCustomMessage', this.message);
         this.toggleCustomMessageModal();

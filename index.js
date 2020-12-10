@@ -3,6 +3,8 @@ const app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
+const translator = require('./node-translate');
+
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
@@ -21,7 +23,17 @@ io.on('connection', (socket) => {
   })
 
   socket.on('SEND_MESSAGE', async function(data) {
-    io.emit('SEND_MESSAGE', data);
+    let message = '';
+
+    if (data) {
+      if (data.language !== 'en') {
+        message = await translator.translator(data);
+      } else {
+        message = data.text;
+      }
+    }
+    
+    io.emit('SEND_MESSAGE', message);
   });
 
   socket.on('END_SESSION', async function(data) {

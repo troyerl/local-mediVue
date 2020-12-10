@@ -62,16 +62,17 @@ export default new Vuex.Store({
     async getPlaylists({ commit }) {
       const {
         data: {
-          getAdminById: { ...playlists },
+          getHospitalById: { ...playlists },
         },
       } = await apolloClient.query({
         query: gql.getPlaylists,
-        variables: { id: process.env.VUE_APP_ADMIN_ID },
+        variables: { hospitalId: process.env.VUE_APP_HOSPITAL_ID },
       });
-      playlists.playlists.sort(function(a, b) {
+
+      playlists[0].playlists.sort(function(a, b) {
         return b.timesPlayed - a.timesPlayed;
       });
-      commit('UPDATE_PLAYLIST', { playlists: playlists.playlists });
+      commit('UPDATE_PLAYLIST', { playlists: playlists[0].playlists });
     },
     setStartTime({ commit }) {
       commit('SET_START_TIME', { startTime: new Date() });

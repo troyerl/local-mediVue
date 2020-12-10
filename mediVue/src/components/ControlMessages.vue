@@ -13,12 +13,13 @@ export default {
   name: 'ControlMessages',
   computed: {
     ...mapState([
-      'defaultMessages'
+      'defaultMessages',
+      'userInfo'
     ])
   },
   methods: {
     setMessage(e) {
-      this.$socket.emit('SEND_MESSAGE', e.target.innerText);
+      this.$socket.emit('SEND_MESSAGE', { text: e.target.innerText, language: this.userInfo.selectedLanugage });
       this.$store.commit('togglePlayerView');
       setTimeout(() => {
         this.$socket.emit('SEND_MESSAGE', null);

@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 
 export default {
   getPlaylists: gql`
-    query($id: ID!) {
-      getAdminById(id: $id) {
+    query($hospitalId: ID!) {
+      getHospitalById(hospitalId: $hospitalId) {
         playlists {
           id
           name
