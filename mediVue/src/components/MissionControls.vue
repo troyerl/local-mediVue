@@ -78,8 +78,8 @@ export default {
       }
     },
     endSession() {
-      this.$socket.emit('END_SESSION', null);
       this.$store.dispatch('endSession').then(() => {
+        this.$socket.emit('END_SESSION', null);
         this.$socket.emit('UPDATE_USER', null);
       });
 

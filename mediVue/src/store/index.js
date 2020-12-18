@@ -86,7 +86,8 @@ export default new Vuex.Store({
         procedureNum: parseInt(state.userInfo.procedureNum), 
         procedureSelect: state.userInfo.procedureSelect, 
         selectedLanugage: state.userInfo.selectedLanugage, 
-        totalProcedures: parseInt(state.userInfo.totalProcedures)
+        totalProcedures: parseInt(state.userInfo.totalProcedures),
+        hospitalId: process.env.VUE_APP_HOSPITAL_ID
       };
 
       await apolloClient.mutate({
