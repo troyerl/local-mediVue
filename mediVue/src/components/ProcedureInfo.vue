@@ -17,28 +17,44 @@
       <div class="w-100 d-flex justify-content-center mt-3">
         <div class="w-50 text-center border-right d-flex flex-column justify-content-center align-items-center">
           <b-card class="w-75 shadow-sm">
-            <p class="mb-2 text-center font-weight-bold">Procedure Number</p>
-            <div class="d-flex  justify-content-center align-items-center align-content-center text-center">
+            <p class="mb-1 text-center font-weight-bold">Procedure Number</p>
+            <div class="d-flex justify-content-center align-items-center align-content-center text-center">
 
-    
-              <b-form-input
-                type="number"
-                required
-                placeholder="1"
-                class="procedure-input text-center"
-                v-model="procedureNum"
-                min="0"
-              ></b-form-input>
+              <div class="procedure-input d-flex flex-column">
+                <div class="d-flex justify-content-around">
+                  <p @click="incrementProdueceNum(1)" class="mb-1 text-primary">+1</p>
+                  <p class="mb-0">|</p>
+                  <p @click="incrementProdueceNum(5)" class="mb-0 text-primary">+5</p>
+                </div>
+                <b-form-input
+                  type="number"
+                  required
+                  placeholder="1"
+                  class="text-center"
+                  v-model="procedureNum"
+                  min="0"
+                ></b-form-input>
+                <p @click="incrementProdueceNum(-1)" class="mb-0 mt-1 text-primary">-1</p>
+              </div>
+             
 
               <p class="mx-2 pt-3">out of</p>
-              <b-form-input
-                type="number"
-                required
-                placeholder="19"
-                class="procedure-input text-center"
-                v-model="totalProcedures"
-                min="0"
-              ></b-form-input>
+              <div class="procedure-input d-flex flex-column">
+                <div class="d-flex justify-content-around">
+                  <p @click="incrementTotalNum(1)" class="mb-1 text-primary">+1</p>
+                  <p class="mb-0">|</p>
+                  <p @click="incrementTotalNum(5)" class="mb-0 text-primary">+5</p>
+                </div>
+                <b-form-input
+                  type="number"
+                  required
+                  placeholder="19"
+                  class="text-center"
+                  v-model="totalProcedures"
+                  min="0"
+                ></b-form-input>
+                <p @click="incrementTotalNum(-1)" class="mb-0 mt-1 text-primary">-1</p>
+              </div>
             </div>
           </b-card>
         </div>
@@ -109,8 +125,8 @@ export default {
         {id: 'other', svg: 'other.svg', text: 'Other'},
       ],
       playlistSelect: null,
-      procedureNum: null,
-      totalProcedures: null,
+      procedureNum: 1,
+      totalProcedures: 19,
       languageOptions: [
         { text: 'English', svg: 'english.svg', value: 'en' },
         { text: 'Spanish', svg: 'spanish.svg', value: 'es' },
@@ -145,16 +161,19 @@ export default {
     this.$store.dispatch('getPlaylists');
   },
   methods: {
+    incrementTotalNum(incrementNumber) {
+      if (this.totalProcedures + incrementNumber > 0) {
+        this.totalProcedures += incrementNumber;
+      }
+    },  
+    incrementProdueceNum(incrementNumber) {
+      if (this.procedureNum + incrementNumber > 0) {
+        this.procedureNum += incrementNumber;
+      }
+    },
     onSubmit() {
       this.error = null;
       if (this.procedureSelect && this.playlistSelect) {
-        if (!this.procedureNum) {
-          this.procedureNum = 1;
-        }
-        if (!this.totalProcedures) {
-          this.totalProcedures = 19;
-        }
-
         this.$socket.emit('UPDATE_USER', {
           procedureSelect: this.procedureSelect,
           procedureNum: this.procedureNum,
