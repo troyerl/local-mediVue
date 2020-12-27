@@ -45,9 +45,12 @@ export default {
       if (this.message) {
         this.$socket.emit('SEND_MESSAGE', { text: this.message, language: this.userInfo.selectedLanugage });
         this.$store.commit('togglePlayerView');
-        this.$store.dispatch('addCustomMessage', this.message);
+        this.$store.dispatch('addCustomMessage', { message: this.message, icon: 'chat-dots-fill' });
         this.toggleCustomMessageModal();
         this.message = '';
+        setTimeout(() => {
+          this.$socket.emit('SEND_MESSAGE', null);
+        }, 15 * 1000);
       } else {
         this.error = 'Custom message required to send to patient';
       }

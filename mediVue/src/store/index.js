@@ -15,15 +15,42 @@ export default new Vuex.Store({
     playing: false,
     playlists: null,
     defaultMessages: [
-      'You are half-way done', 
-      'Ten minutes remaining',
-      'Five minutes remaining',
-      'Hold your breath',
-      'You are doing great!',
-      'About 2 minutes remaining',
-      'You may breathe normally now',
-      'Your parents are proud of you!',
-      'Please do not move while we come into the room',
+      {
+        message: 'You are half-way done',
+        icon: 'hourglass-split'
+      },
+      {
+        message: 'Ten minutes remaining',
+        icon: 'hourglass-top'
+      },
+      {
+        message: 'Five minutes remaining',
+        icon: 'hourglass-bottom'
+      },
+      {
+        message: 'About 2 minutes remaining',
+        icon: 'hourglass'
+      },
+      {
+        message: 'Hold your breath',
+        icon: 'emoji-neutral'
+      },
+      {
+        message: 'You may breathe normally now',
+        icon: 'emoji-laughing'
+      },
+      {
+        message: 'You are doing great!',
+        icon: 'hand-thumbs-up'
+      },
+      {
+        message: 'Your parents are proud of you!',
+        icon: 'emoji-smile'
+      },
+      {
+        message: 'Please do not move while we come into the room',
+        icon: 'exclamation-diamond'
+      }
     ]
   },
   mutations: {
