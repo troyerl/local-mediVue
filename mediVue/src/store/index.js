@@ -3,6 +3,8 @@ import Vue from 'vue';
 import gql from './graphql';
 import apolloClient from './apollo';
 
+import config from '../../config';
+
 
 Vue.use(Vuex);
 
@@ -66,7 +68,7 @@ export default new Vuex.Store({
         },
       } = await apolloClient.query({
         query: gql.getPlaylists,
-        variables: { hospitalId: process.env.VUE_APP_HOSPITAL_ID },
+        variables: { hospitalId: config.HOSPITAL_ID },
       });
 
       playlists[0].playlists.sort(function(a, b) {
@@ -79,7 +81,7 @@ export default new Vuex.Store({
     },
     async endSession({ state }) {
       let variables = {
-        mediVueId: process.env.VUE_APP_MEDIVUE_ID, 
+        mediVueId: config.MEDIVUE_ID, 
         startTime: state.startTime.toISOString(), 
         endTime: new Date().toISOString(), 
         playlistId: state.userInfo.playlist.id,
@@ -87,7 +89,7 @@ export default new Vuex.Store({
         procedureSelect: state.userInfo.procedureSelect, 
         selectedLanugage: state.userInfo.selectedLanugage, 
         totalProcedures: parseInt(state.userInfo.totalProcedures),
-        hospitalId: process.env.VUE_APP_HOSPITAL_ID
+        hospitalId: config.HOSPITAL_ID
       };
 
       await apolloClient.mutate({
