@@ -14,7 +14,7 @@
         </div>
       </b-card>
 
-      <div class="w-100 d-flex justify-content-center mt-3">
+      <div class="w-100 d-flex justify-content-center mt-2">
         <div class="w-50 text-center border-right d-flex flex-column justify-content-center align-items-center">
           <b-card class="w-75 shadow-sm">
             <p class="mb-1 text-center font-weight-bold">Procedure Number</p>
@@ -22,9 +22,9 @@
 
               <div class="procedure-input d-flex flex-column">
                 <div class="d-flex justify-content-around">
-                  <p @click="incrementProdueceNum(1)" class="mb-1 text-primary">+1</p>
+                  <button @click="incrementProdueceNum(1)" class="testtest mb-1">+1</button>
                   <p class="mb-0">|</p>
-                  <p @click="incrementProdueceNum(5)" class="mb-0 text-primary">+5</p>
+                  <button @click="incrementProdueceNum(5)" class="testtest mb-1">+5</button>
                 </div>
                 <b-form-input
                   type="number"
@@ -34,16 +34,16 @@
                   v-model="procedureNum"
                   min="0"
                 ></b-form-input>
-                <p @click="incrementProdueceNum(-1)" class="mb-0 mt-1 text-primary">-1</p>
+                <button @click="incrementProdueceNum(-1)" class="testtest mb-0 mt-1">-1</button>
               </div>
              
 
               <p class="mx-2 pt-3">out of</p>
               <div class="procedure-input d-flex flex-column">
                 <div class="d-flex justify-content-around">
-                  <p @click="incrementTotalNum(1)" class="mb-1 text-primary">+1</p>
+                  <button @click="incrementTotalNum(1)" class="testtest mb-1">+1</button>
                   <p class="mb-0">|</p>
-                  <p @click="incrementTotalNum(5)" class="mb-0 text-primary">+5</p>
+                  <button @click="incrementTotalNum(5)" class="testtest mb-1">+5</button>
                 </div>
                 <b-form-input
                   type="number"
@@ -53,7 +53,7 @@
                   v-model="totalProcedures"
                   min="0"
                 ></b-form-input>
-                <p @click="incrementTotalNum(-1)" class="mb-0 mt-1 text-primary">-1</p>
+                <button @click="incrementTotalNum(-1)" class="testtest mb-0 mt-1">-1</button>
               </div>
             </div>
           </b-card>
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <b-card class="mt-3 shadow-sm">
+      <b-card class="mt-2 shadow-sm">
         <p class="mb-2 text-center font-weight-bold">Select Playlist</p>
 
         <b-button-group class="mb-1 mx-3">
@@ -201,6 +201,17 @@ export default {
 </script>
 
 <style>
+  .testtest {
+    background-color: #982732;
+    border: none;
+    color: white;
+    padding: 0px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 16px;
+  }
   .other-playlists {
     min-height: 90vh;
   }
