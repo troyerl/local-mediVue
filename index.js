@@ -8,7 +8,7 @@ const translator = require('./node-translate');
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/mediVue/dist');
+  res.sendFile(__dirname + '/public');
 });
 
 io.on('connection', (socket) => {
