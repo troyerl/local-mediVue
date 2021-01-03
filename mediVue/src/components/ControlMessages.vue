@@ -37,7 +37,7 @@ export default {
 <style>
 .control-messages {
   width: 100vw;
-  height: 100vw;
+  min-height: 100vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -46,8 +46,8 @@ export default {
   background: #F7FBFF;
 }
 .message-container {
-  width: 31%;
-  height: 31%;
+  width: 230px;
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;

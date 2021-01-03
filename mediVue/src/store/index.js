@@ -71,6 +71,7 @@ export default new Vuex.Store({
       state.userInfo = data
     },
     updateDefaultMessage: (state, data) => {
+      console.log(data);
       state.defaultMessages.push(data);
     },
     UPDATE_PLAYLIST: (state, data) => {

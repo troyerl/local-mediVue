@@ -45,7 +45,7 @@ export default {
       if (this.message) {
         this.$socket.emit('SEND_MESSAGE', { text: this.message, language: this.userInfo.selectedLanugage });
         this.$store.commit('togglePlayerView');
-        this.$store.dispatch('addCustomMessage', { message: this.message, icon: 'chat-dots-fill' });
+        this.$store.dispatch('addCustomMessage', { message: this.message, icon: 'chat-dots' });
         this.toggleCustomMessageModal();
         this.message = '';
         setTimeout(() => {
