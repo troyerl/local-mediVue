@@ -66,7 +66,6 @@ export default {
         this.stopVideo();
       } 
     },
-
   },
   mounted() {
     this.mutePlayer ? this.player.mute() : '';
