@@ -14,7 +14,7 @@
         </div>
       </b-card>
 
-      <div class="w-100 d-flex justify-content-center mt-2">
+      <div class="w-100 d-flex justify-content-center mt-3">
         <div class="w-50 text-center border-right d-flex flex-column justify-content-center align-items-center">
           <b-card class="w-75 shadow-sm">
             <p class="mb-1 text-center font-weight-bold">Procedure Number</p>
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <b-card class="mt-2 shadow-sm">
+      <b-card class="mt-3 shadow-sm">
         <p class="mb-2 text-center font-weight-bold">Select Playlist</p>
 
         <b-button-group class="mb-1 mx-3">

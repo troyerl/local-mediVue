@@ -6,7 +6,7 @@
       <div class="d-flex flex-column justify-content-center align-items-center align-content-center" @click="centerControl">
         <b-icon-play-fill v-if="!playing && showVideoPlayer" class="h1 mb-0 test-icon"/> 
         <b-icon-pause-fill class="h1 mb-0 test-icon" v-else-if="playing && showVideoPlayer"/> 
-        <b-icon-chat-dots-fill class="pt-n3" v-else />{{showVideoPlayer ? null : 'Custom Message'}}
+        <b-icon-chat-dots-fill class="mt-1" v-else />{{showVideoPlayer ? null : 'Custom Message'}}
       </div>
       <b-icon-skip-end-fill class="h1 mb-0 test-icon" v-if="showVideoPlayer" @click="playNextVideo"/>
     </div>
