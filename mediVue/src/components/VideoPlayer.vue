@@ -32,6 +32,8 @@ export default {
   },
   computed: {
     ...mapState([
+      'playNextVideo',
+      'playPreviousVideo',
       'playing',
       'userInfo',
     ]),
@@ -45,18 +47,39 @@ export default {
         this.initialize(newInfo.playlist.videos);
       }
     },
+    playNextVideo(newNextVideoBool) {
+      if (newNextVideoBool) {
+        this.playNext();
+        this.resetVideoPlayingValues();
+      }
+    },
+    playPreviousVideo(newPreviousVideoBool) {
+      if (newPreviousVideoBool) {
+        this.playPrevious();
+        this.resetVideoPlayingValues();
+      }
+    },
     playing (newPlayValue) {
       if (newPlayValue) {
         this.playVideo();
       } else {
         this.stopVideo();
       } 
-    }
+    },
   },
   mounted() {
     this.mutePlayer ? this.player.mute() : '';
   },
   methods: {
+    resetVideoPlayingValues() {
+      this.$store.dispatch('resetVideoPlaying');
+    },
+    playNext() {
+      this.player.nextVideo();
+    },
+    playPrevious() {
+      this.player.previousVideo();
+    },
     initialize(playlist) {
       this.firstTimePlayed = true;
       this.videos = playlist.map((v) => this.getId(v.url));

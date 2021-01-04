@@ -43,6 +43,14 @@ io.on('connection', (socket) => {
   socket.on('UPDATE_USER', async function(data) {
     io.emit('UPDATE_USER', data);
   });
+
+  socket.on('PLAY_NEXT_VIDEO', function(data) {
+    io.emit('PLAY_NEXT_VIDEO', data);
+  });
+
+  socket.on('PLAY_PREVIOUS_VIDEO', function(data) {
+    io.emit('PLAY_PREVIOUS_VIDEO', data);
+  });
   
 });
 

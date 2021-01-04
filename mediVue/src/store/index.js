@@ -15,6 +15,8 @@ export default new Vuex.Store({
     showVideoPlayer: true,
     playing: false,
     playlists: null,
+    playNextVideo: false,
+    playPreviousVideo: false,
     defaultMessages: [
       {
         message: 'You are half-way done',
@@ -65,10 +67,18 @@ export default new Vuex.Store({
       state.showVideoPlayer = !state.showVideoPlayer;
     },
     SOCKET_END_SESSION: (state) => {
-      state.playing = false
+      state.playing = false;
     },
     SOCKET_UPDATE_USER: (state, data) => {
-      state.userInfo = data
+      state.userInfo = data;
+    },
+    SOCKET_PLAY_NEXT_VIDEO: (state, data) => {
+      state.playNextVideo = data;
+      state.playing = true;
+    },
+    SOCKET_PLAY_PREVIOUS_VIDEO: (state, data) => {
+      state.playPreviousVideo = data;
+      state.playing = true;
     },
     updateDefaultMessage: (state, data) => {
       console.log(data);
@@ -80,6 +90,10 @@ export default new Vuex.Store({
     SET_START_TIME: (state, data) => {
       state.startTime = data.startTime;
     },
+    RESET_PLAY_VIDEOS: (state) => {
+      state.playNextVideo = false;
+      state.playPreviousVideo = false;
+    }
   },
   actions: {
     updateUserInfo: (payload) => {
@@ -123,6 +137,9 @@ export default new Vuex.Store({
         mutation: gql.createUsageReport,
         variables
       });
+    },
+    resetVideoPlaying({ commit }) {
+      commit('RESET_PLAY_VIDEOS')
     }
   }
 })

@@ -25,11 +25,7 @@
         <p class="text-center">{{ message }}</p>
       </div>
     </div>
-    <div class="controls">
-      <div class="control-buttons" @click="toggleShowPlayer"><b-icon-chevron-double-left class="mr-2 mt-1" v-if="!showVideoPlayer"></b-icon-chevron-double-left>{{showVideoPlayer ? '' : 'Controls'}}</div>
-      <div class="control-buttons center-control" @click="centerControl"><b-icon-play-fill v-if="!playing && showVideoPlayer" class="mb-n1"/> <b-icon-pause-fill v-else-if="playing && showVideoPlayer" class="mb-n1"/> <b-icon-chat-dots-fill v-else class="mb-n1"/>{{showVideoPlayer ? playPauseText : 'Custom Message'}}</div>
-      <div class="control-buttons" @click="toggleShowPlayer">{{showVideoPlayer ? 'Messages' : ''}} <b-icon-chevron-double-right class="ml-2 mt-1" v-if="showVideoPlayer"></b-icon-chevron-double-right></div>
-    </div>
+    <BottomNavbar :toggleCustomMessageModal="toggleCustomMessageModal"/>
     <CustomMessage :showCustomMessageModal="showCustomMessageModal" :toggleCustomMessageModal="toggleCustomMessageModal"/>
   </div>
 </template>
@@ -38,6 +34,7 @@
 import VideoPlayer from './VideoPlayer';
 import ControlMessages from './ControlMessages';
 import CustomMessage from './CustomMessage';
+import BottomNavbar from './BottomNavbar';
 
 import { mapState } from 'vuex';
 
@@ -46,7 +43,8 @@ export default {
   components: {
     VideoPlayer,
     ControlMessages,
-    CustomMessage
+    CustomMessage,
+    BottomNavbar
   },
   data() {
     return {
@@ -57,26 +55,9 @@ export default {
     ...mapState([
       'message',
       'showVideoPlayer',
-      'playing'
     ]),
-    playPauseText() {
-      return this.playing ? 'Pause' : 'Play'
-    },
   },
   methods: {
-    togglePlay() {
-      this.$socket.emit('TOGGLE_PLAYER', !this.playing);
-    },
-    toggleShowPlayer() {
-      this.$store.commit('togglePlayerView');
-    },
-    centerControl() {
-      if (this.showVideoPlayer) {
-        this.togglePlay();
-      } else {
-        this.toggleCustomMessageModal();
-      }
-    },
     endSession() {
       this.$store.dispatch('endSession').then(() => {
         this.$socket.emit('END_SESSION', null);
@@ -93,37 +74,6 @@ export default {
 </script>
 
 <style>
-.controls {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 10vh;
-  background: #981e32;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.control-buttons {
-  width: 33.33vw;
-  text-align: center;
-  color: white;
-  font-size: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.center-control {
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .message {
   width: 50vw;
   height: auto;
