@@ -5,9 +5,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 // plugins
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import { BootstrapVue, BootstrapVueIcons  } from 'bootstrap-vue';
 Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
+Vue.use(BootstrapVueIcons);
 
 import VueYoutube from 'vue-youtube';
 Vue.use(VueYoutube);
