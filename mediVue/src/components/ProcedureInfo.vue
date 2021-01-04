@@ -110,6 +110,8 @@
 <script>
 import { mapState } from 'vuex';
 const _ = require('lodash');
+import apolloClient from '../store/apollo';
+import gql from '../store/graphql';
 
 export default {
   name: 'ProcedureInfo',
@@ -171,15 +173,19 @@ export default {
         this.procedureNum += incrementNumber;
       }
     },
-    onSubmit() {
+    async onSubmit() {
       this.error = null;
       if (this.procedureSelect && this.playlistSelect) {
+        this.getVideos(this.playlistSelect);
+        let playlist = _.find(this.playlists, { id: this.playlistSelect });
+        playlist.videos = await this.getVideos(this.playlistSelect);
+
         this.$socket.emit('UPDATE_USER', {
           procedureSelect: this.procedureSelect,
           procedureNum: this.procedureNum,
           totalProcedures: this.totalProcedures,
           selectedLanugage: this.languageOptions[this.selectedLanugage].value,
-          playlist: _.find(this.playlists, { id: this.playlistSelect })
+          playlist
         });
         this.$store.dispatch('setStartTime');
         this.$router.push({name: 'missionControls'});
@@ -187,6 +193,18 @@ export default {
         this.error = 'Missing required info to begin';
         this.showError = true;
       }
+    },
+    async getVideos(playlistId) {
+      const {
+        data: {
+          getPlaylistById: { ...videos },
+        },
+      } = await apolloClient.query({
+        query: gql.getPlaylistById,
+        variables: { playlistId },
+      });
+
+      return videos.videos;
     },
     plusSlides(slideChoice) {
       this.selectedLanugage = this.selectedLanugage + slideChoice;

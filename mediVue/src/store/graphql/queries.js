@@ -8,10 +8,15 @@ export default {
           id
           name
           timesPlayed
-          videos {
-            id
-            url
-          }
+        }
+      }
+    }
+  `,
+  getPlaylistById: gql`
+    query($playlistId: ID!) {
+      getPlaylistById(playlistId: $playlistId) {
+        videos {
+          url
         }
       }
     }
