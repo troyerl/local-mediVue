@@ -2,7 +2,7 @@ export default {
   PATIENT_PLAYER: 'patient',
   ADMIN_PLAYER: 'admin',
   BOTH_PLAYERS: 'both',
-  SERVER_URL: '192.168.56.1',
+  SERVER_URL: 'http://10.247.102.191',
   // SERVER_URL: 'http://192.168.1.16:9000',
   // SERVER_URL: 'http://localhost:9000',
 
