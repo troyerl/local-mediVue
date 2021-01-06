@@ -20,6 +20,7 @@
 
 <script>
 import videoPlayer from './VideoPlayer';
+import config from '../../config';
 
 import { mapState } from 'vuex';
 
@@ -30,6 +31,9 @@ export default {
   },
   components: {
     videoPlayer,
+  },
+  mounted() {
+    this.$store.dispatch('setUserType', { userType: config.PATIENT_PLAYER });
   },
   computed: {
     ...mapState([

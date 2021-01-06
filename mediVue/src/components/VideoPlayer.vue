@@ -99,7 +99,7 @@ export default {
     },
     getId(url) {
       return this.$youtube.getIdFromUrl(url);
-    },
+    }
   },
 };
 </script>

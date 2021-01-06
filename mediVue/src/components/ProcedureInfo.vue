@@ -112,6 +112,7 @@ import { mapState } from 'vuex';
 const _ = require('lodash');
 import apolloClient from '../store/apollo';
 import gql from '../store/graphql';
+import config from '../../config';
 
 export default {
   name: 'ProcedureInfo',
@@ -161,6 +162,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getPlaylists');
+    this.$store.dispatch('setUserType', { userType: config.ADMIN_PLAYER });
   },
   methods: {
     incrementTotalNum(incrementNumber) {
@@ -203,6 +205,8 @@ export default {
         query: gql.getPlaylistById,
         variables: { playlistId },
       });
+
+      console.log(videos);
 
       return videos.videos;
     },

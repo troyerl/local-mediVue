@@ -17,6 +17,7 @@ export default new Vuex.Store({
     playlists: null,
     playNextVideo: false,
     playPreviousVideo: false,
+    userType: null,
     defaultMessages: [
       {
         message: 'You are half-way done',
@@ -93,6 +94,9 @@ export default new Vuex.Store({
     RESET_PLAY_VIDEOS: (state) => {
       state.playNextVideo = false;
       state.playPreviousVideo = false;
+    },
+    SET_USER_TYPE: (state, data) => {
+      state.userType = data.userType;
     }
   },
   actions: {
@@ -140,6 +144,9 @@ export default new Vuex.Store({
     },
     resetVideoPlaying({ commit }) {
       commit('RESET_PLAY_VIDEOS')
+    },
+    setUserType({ commit }, data) {
+      commit('SET_USER_TYPE', data);
     }
   }
 })
