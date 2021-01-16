@@ -206,8 +206,6 @@ export default {
         variables: { playlistId },
       });
 
-      console.log(videos);
-
       return videos.videos;
     },
     plusSlides(slideChoice) {
